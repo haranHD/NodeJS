@@ -1,19 +1,13 @@
 const express = require('express')
 const db = require('./db') // Import the database connection
 const app = express()
-const User = require('./Models/User') // Import the User model
+
+const userRoutes = require('./Routes/users') // Import user routes
 
 app.use(express.json()) // Middleware to parse JSON request bodies
 
 //User routes:
-// Create a new user
-app.post('/api/users', async(req, res) =>{
-    const data = req.body
-    const user = new User(req.body)
-    const savedUser = await user.save() // why await is used here because save() method returns a Promise that resolves to the saved user document
-    res.status(201).json(savedUser)
-})
- 
+app.use('/api/users', userRoutes); //here we are using use() middleware to mount the user routes at the path /api/users 
 
 app.get('/' , (req , res) =>{
     res.send("Hello World");
